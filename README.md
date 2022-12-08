@@ -1,8 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+Make sure to create a .env.local file and add a variable that contains your coinmarketcap key like so: 
 
-First, run the development server:
+```
+COIN_MARKET_CAP_API_KEY=YOUR_KEY_HERE
+```
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -14,7 +19,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/currencies.ts`.
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on:
+- You can fetch the list of the major crypto currencies using `pages/api/currencies.ts`.
+- You can fetch the metadata of a given currency using `pages/api/metadata.ts`.
+- You can fetch the price of a given currency using `pages/api/price.ts`.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 

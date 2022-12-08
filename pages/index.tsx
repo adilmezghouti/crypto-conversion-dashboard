@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import {ChangeEventHandler, useEffect, useState} from "react"
+import {ChangeEventHandler, useCallback, useEffect, useState} from "react"
 import {fetchCurrencies, fetchMetadata, fetchPrice} from './utils'
 import {CurrencyInfo} from "./types";
 
@@ -9,7 +9,7 @@ const Countdown = ({value, callback} : {value: number, callback: () => void}) =>
   const [counter, setCounter] = useState(value)
 
   useEffect(() => {
-    const interval = setInterval((args) => {
+    const interval = setInterval(() => {
       setCounter(counter => {
         if (counter === 0){
           callback()
@@ -20,24 +20,30 @@ const Countdown = ({value, callback} : {value: number, callback: () => void}) =>
       })
     }, 1000)
     return () => clearInterval(interval)
-  }, [])
+  })
 
   return <div className={styles.countdown}>Rate will update in {counter}</div>
 }
 
 export default function Home() {
   const DEFAULT_SYMBOL = 'BTC'
+  const DEFAULT_LOGO = 'https://s2.coinmarketcap.com/static/img/exchanges/64x64/270.png'
   const [from, setFrom] = useState(DEFAULT_SYMBOL)
   const [fiat, setFiat] = useState(0)
   const [currencies, setCurrencies] = useState<CurrencyInfo[]>([])
-  const [logoUrl, setLogoUrl] = useState('https://s2.coinmarketcap.com/static/img/exchanges/64x64/270.png')
+  const [logoUrl, setLogoUrl] = useState(DEFAULT_LOGO)
+  const [loading, setLoading] = useState(false)
 
-  const refreshInfo = () => {
-    fetchMetadata(from).then(setLogoUrl)
-    fetchPrice(1, from).then(setFiat)
-  }
+  const refreshInfo = useCallback(async () => {
+    setLoading(true)
+    const logo = await fetchMetadata(from)
+    const price = await fetchPrice(1, from)
+    setLogoUrl(logo)
+    setFiat(price)
+    setLoading(false)
+  }, [from])
 
-  const handleChange = (event: ChangeEventHandler<HTMLSelectElement>) => {
+  const handleChange:ChangeEventHandler<HTMLSelectElement> = (event) => {
     setFrom(event.target.value)
   }
 
@@ -51,7 +57,7 @@ export default function Home() {
 
   useEffect(() => {
     refreshInfo()
-  }, [from])
+  }, [refreshInfo])
 
   return (
     <div className={styles.container}>
@@ -74,7 +80,7 @@ export default function Home() {
           </select>
           <div className={styles.fiat}>{`$${Number(fiat).toFixed(2)}`}</div>
         </div>
-        <Countdown value={10} callback={refreshInfo} />
+        {loading ? <div className={styles.loading}>Loading the new rate...</div> : <Countdown value={10} callback={refreshInfo} />}
         <button className={styles.button} onClick={handleConvertClick}>CONVERT</button>
       </main>
     </div>
