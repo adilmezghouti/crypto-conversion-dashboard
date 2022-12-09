@@ -4,6 +4,7 @@ import {ChangeEventHandler, useCallback, useEffect, useState} from "react"
 import {fetchCurrencies, fetchMetadata, fetchPrice} from './utils'
 import {CurrencyInfo} from "./types";
 import ErrorBoundary from "../components/error-boundary";
+import Image from "next/image";
 
 
 const Countdown = ({value, callback}: { value: number, callback: () => void }) => {
@@ -75,7 +76,7 @@ export default function Home() {
           </h1>
           <div className={styles.grid}>
           <span className={styles.logo}>
-            <img src={logoUrl} alt="Crypto Currency Logo" width={30} height={30}/>
+            <Image src={logoUrl} alt="Crypto Currency Logo" width={30} height={30}/>
           </span>
             <select className={styles.select} value={from} onChange={handleChange}>
               {currencies?.map(({id, symbol}) => (<option key={id} value={symbol}>{symbol}</option>))}
