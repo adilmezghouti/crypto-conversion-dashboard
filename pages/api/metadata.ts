@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {MetaData} from "../types";
+import {MetaData} from "../../types";
 
 const asyncCallWithTimeout = async (asyncPromise: Promise<string>) => {
   let timeoutHandle: ReturnType<typeof setTimeout>;
@@ -20,7 +20,7 @@ const asyncCallWithTimeout = async (asyncPromise: Promise<string>) => {
 
 const handler1 = async (symbol: string) => {
   const API_KEY = process.env.COIN_MARKET_CAP_API_KEY
-  const options = {method: 'GET', headers: {accept: 'application/json', 'X-CMC_PRO_API_KEY': API_KEY}};
+  const options = {method: 'GET', headers: new Headers({accept: 'application/json', 'X-CMC_PRO_API_KEY': API_KEY as string})};
 
   const response = await fetch(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?symbol=${symbol}`, options)
   const data: Record<string, Array<{ logo: string }>> = (await response.json()).data
@@ -41,7 +41,7 @@ export default async function handler(
 
   if (logo) {
     res.status(200).json({
-      logo
+      logo: logo as string
     })
   } else {
     res.status(400).end()

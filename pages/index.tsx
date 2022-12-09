@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import {ChangeEventHandler, useCallback, useEffect, useState} from "react"
-import {fetchCurrencies, fetchMetadata, fetchPrice} from './utils'
-import {CurrencyInfo} from "./types";
+import {fetchCurrencies, fetchMetadata, fetchPrice} from '../utils'
+import {CurrencyInfo} from "../types";
 import ErrorBoundary from "../components/error-boundary";
 import Image from "next/image";
 
