@@ -1,10 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project
+This is a simple crypto dashboard that shows conversions of crypto-currencies to fiat. The app is built using Next.js.
 
 ## Getting Started
-Make sure to create a .env.local file and add a variable that contains your coinmarketcap key like so: 
+Make sure to create a .env.local file and add two variables, the first contains your coinmarketcap key and the second contains the api call timeout. 
 
 ```
 COIN_MARKET_CAP_API_KEY=YOUR_KEY_HERE
+API_TIMEOUT=4000
 ```
 
 To run the development server:
